@@ -17,6 +17,7 @@ protected:
     int trollpos  = 192;
 
     uint8_t* tface;
+    uint32_t fr = 0xCCCCCC, bg = 0x000000;
 
     Mix_Music* trollmus;
 
@@ -164,5 +165,39 @@ public:
 
         fore(0xE0E080); nesprint(2, 23, "@ 2022 TROLLEYBUS GAME CARD");
         fore(0x86C100); nesprn(2, 5 + current, '>');
+    }
+
+    void fore(uint32_t c) { fr = c; }
+    void back(uint32_t b) { bg = b; }
+
+    // Печать NES-шрифта
+    void nesprn(int x, int y, char t) {
+
+        uint8_t ch;
+
+        if (x < 0 || x > 31 || y < 0 || y > 23)
+            return;
+
+        x  = (x*8) + 32;
+        y *= 8;
+
+        if (t == ' ') {
+            ch = 10;
+        } else if (t >= '0' && t <= '9' || (t >= 'A' && t <= 'Z') || t == '@' || t == '>') {
+            ch = t - '0';
+        } else {
+            return;
+        }
+
+        for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++) {
+            pset(x + j, y + i, font_nes[ch][i] & (0x80 >> j) ? fr : bg);
+        }
+    }
+
+    void nesprint(int x, int y, const char* s) {
+
+        int i = 0;
+        while (s[i]) { nesprn(x++, y, s[i++]); }
     }
 };
