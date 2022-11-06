@@ -10,6 +10,7 @@ class Game : public App {
 protected:
 
     vector<string> gamelist;
+    vector<string> wordlist;
 
     int current = 0;
     int started = 0;
@@ -25,6 +26,7 @@ public:
 
     Game() : App(320, 200, 4) {
 
+        // TOP-названия
         gamelist.push_back("DARKWING DUCK");
         gamelist.push_back("CONTRA 1");
         gamelist.push_back("CONTRA 2");
@@ -51,6 +53,29 @@ public:
         gamelist.push_back("ADVENTURES OF LOLO 2");
         gamelist.push_back("ADVENTURES OF LOLO 3");
 
+        // Список слов для попонта
+        wordlist.push_back("DARKWING");
+        wordlist.push_back("MARIO");
+        wordlist.push_back("NUTS");
+        wordlist.push_back("BATTLE");
+        wordlist.push_back("TETRIS");
+        wordlist.push_back("ADVENTURE");
+        wordlist.push_back("DUCK");
+        wordlist.push_back("HUNT");
+        wordlist.push_back("LODE");
+        wordlist.push_back("RUNNER");
+        wordlist.push_back("CHIP");
+        wordlist.push_back("MILK");
+        wordlist.push_back("DALE");
+        wordlist.push_back("ISLAND");
+        wordlist.push_back("TWEEN");
+        wordlist.push_back("BEE");
+        wordlist.push_back("LOLO");
+        wordlist.push_back("SHOOT");
+        wordlist.push_back("ASTRIX");
+        wordlist.push_back("TOADS");
+        wordlist.push_back("BROS");
+
         trollmus = Mix_LoadMUS("src/troll.ogg");
         Mix_Volume(-1, MIX_MAX_VOLUME / 2);
 
@@ -59,6 +84,12 @@ public:
         tface = (uint8_t*) malloc(8192);
         fread(tface, 1, 8192, fp);
         fclose(fp);
+    }
+
+    string str_by_id(int id) {
+
+        id = (id*71231 + 777) % wordlist.size();
+        return wordlist[id];
     }
 
     void draw_face() {
@@ -159,7 +190,16 @@ public:
             fore(i == current ? 0xF0F0F0 : 0xE0B000);
 
             int idx = started + i;
-            sprintf(tmp, "%07d %s", (idx + 1), idx < gamelist.size() ? gamelist[idx].c_str() : "");
+
+            string name  = str_by_id(31*idx);
+            string name2;
+
+            int m = 0;
+            do { name2 = str_by_id(idx + m++); } while (name2 == name);
+            name += " " + name2;
+
+            sprintf(tmp, "%07d %s", (idx + 1), idx < gamelist.size() ? gamelist[idx].c_str() : name.c_str());
+
             nesprint(4, 5 + i, tmp);
         }
 

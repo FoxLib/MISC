@@ -16,7 +16,6 @@ protected:
 
     int pticks = 0, width, height, scale;
     int keyboard[256];
-
     uint8_t kbid = 0;
 
 public:
