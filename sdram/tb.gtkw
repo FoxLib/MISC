@@ -1,0 +1,66 @@
+[*]
+[*] GTKWave Analyzer v3.3.66 (w)1999-2015 BSI
+[*] Sat Nov 26 15:46:05 2022
+[*]
+[dumpfile] "e:\dev\misc\sdram\tb.vcd"
+[dumpfile_mtime] "Sat Nov 26 15:42:29 2022"
+[dumpfile_size] 165971
+[savefile] "e:\dev\misc\sdram\tb.gtkw"
+[timestart] 0
+[size] 960 433
+[pos] -1 -1
+*-7.000000 23 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb.
+[sst_width] 203
+[signals_width] 205
+[sst_expanded] 1
+[sst_vpaned_height] 94
+@28
+[color] 3
+tb.clock
+[color] 3
+tb.clock_25
+[color] 2
+tb.M1.ready
+@22
+[color] 5
+tb.address[25:0]
+@800200
+-PHYS
+@28
+tb.M1.reset_n
+tb.dram_ba[1:0]
+@22
+tb.dram_addr[12:0]
+tb.dram_dq[15:0]
+@28
+tb.dram_cas
+tb.dram_ras
+tb.dram_we
+@1000200
+-PHYS
+@800201
+-STAT
+@29
+tb.M1.precharge
+@23
+[color] 2
+tb.M1.st[3:0]
+tb.M1.fn[3:0]
+@1000201
+-STAT
+@800200
+-FF
+@22
+tb.M1.ff_address[25:0]
+tb.M1.ff_data[7:0]
+@28
+tb.M1.ff_first
+tb.M1.ff_ready
+tb.M1.ff_we
+@1000200
+-FF
+@28
+tb.M1.invd
+[pattern_trace] 1
+[pattern_trace] 0
