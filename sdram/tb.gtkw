@@ -2,10 +2,10 @@
 [*] GTKWave Analyzer v3.3.66 (w)1999-2015 BSI
 [*] Sat Nov 26 15:46:05 2022
 [*]
-[dumpfile] "e:\dev\misc\sdram\tb.vcd"
+[dumpfile] "tb.vcd"
 [dumpfile_mtime] "Sat Nov 26 15:42:29 2022"
 [dumpfile_size] 165971
-[savefile] "e:\dev\misc\sdram\tb.gtkw"
+[savefile] "tb.gtkw"
 [timestart] 0
 [size] 960 433
 [pos] -1 -1
