@@ -4,16 +4,16 @@
 module sdram
 (
     input               clock,              // 100 Mhz
-    input               reset_n,            // =0 Сброс 
+    input               reset_n,            // =0 Сброс
     input               noinit,             // =0 Инициализировать память
-    
+
     // Интерфейс взаимодействия
     input       [25:0]  address,            // Запрошенный адрес байта
     input       [ 7:0]  in,                 // Данные на запись в память
     input               we,
     output reg  [ 7:0]  out,
     output              ready,
-    
+
     // Физический интерфейс
     output              dram_clk,
     output reg  [ 1:0]  dram_ba,
@@ -29,7 +29,7 @@ module sdram
 assign dram_clk = clock;
 
 // WE=0 -> Запись в память; 1=Чтение из памяти
-assign dram_dq  = dram_we ? 16'hZZZZ : {in, in}; 
+assign dram_dq  = dram_we ? 16'hZZZZ : {in, in};
 
 // Условие разблокировки процессора
 wire   invd   = (ff_address != address) || (ff_data != in && we) || ff_first;
@@ -42,7 +42,7 @@ initial begin dram_ldqm = 1'b1; dram_udqm = 1'b1; end
 
 // Команды к SDRAM
 // ------------------------------------------------------------------------
-localparam 
+localparam
 
     //                   RCW
     cmd_loadmode    = 3'b000, // Загрузка регистра режима
@@ -112,7 +112,7 @@ else case (st)
         fn          <= 1'b0;
         command     <= cmd_activate;
         precharge   <= ~precharge;
-        
+
         // Перезарядка очередного банка происходит через команду
         if (precharge) begin
 
@@ -121,31 +121,31 @@ else case (st)
             dram_addr   <= bank_charge[12:0];
             bank_charge <= bank_charge + 1'b1;
 
-        end        
+        end
         // Выполнение операции с памятью
         else begin
-                
+
             // 1. Если поменялся адрес, то прочитать (записать) новый
             // 2. Поменялись данные при записи
             if (invd)
             begin
-            
+
                 st          <= ST_PROCESS;
                 ff_ready    <= 1'b0;
                 ff_first    <= 1'b0;
                 ff_address  <= address;
                 ff_data     <= in;
-                ff_we       <= we;              
-                
+                ff_we       <= we;
+
                 dram_ba     <= address[25:24];  // 2 BIT
                 dram_addr   <= address[23:11];  // 13 BIT
                 bank_charge <= bank_charge + 1;
-                
+
                 dram_ldqm   <=  address[0] & we;
                 dram_udqm   <= !address[0] & we;
-                
+
             end
-            
+
         end
 
     end
@@ -158,7 +158,7 @@ else case (st)
         3:   begin command <= cmd_nop;       st <= ST_IDLE; end
 
     endcase
-    
+
     // Чтение или запись
     ST_PROCESS: case (fn)
 
@@ -184,7 +184,7 @@ else case (st)
         6: begin
 
             fn       <= 7;
-            command  <= cmd_precharge;               
+            command  <= cmd_precharge;
             dram_addr[10] <= 1'b1;
 
             if (ff_we == 1'b0) out <= (ff_address[0] ? dram_dq[15:8] : dram_dq[7:0]);
